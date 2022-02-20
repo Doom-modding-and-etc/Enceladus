@@ -236,7 +236,7 @@ int main(int argc, char * argv[])
         {
         	while (!isButtonPressed(PAD_START)) {
 				clearScreen(GS_SETREG_RGBAQ(0x20,0x60,0xB0,0x80,0x00));
-				printFontMText("Enceladus ERROR!", 15.0f, 15.0f, 0.9f, 0x80808080);
+				printFontMText("Doomedalus ERROR!", 15.0f, 15.0f, 0.9f, 0x80808080);
 				printFontMText(errMsg, 15.0f, 80.0f, 0.6f, 0x80808080);
 		   		printFontMText("\nPress [start] to restart\n", 15.0f, 400.0f, 0.6f, 0x80808080);
 				flipScreen();
