@@ -50,11 +50,13 @@ BIN2S = $(PS2SDK)/bin/bin2s
 #-------------------------- App Content ---------------------------#
 EXT_LIBS = modules/ds34usb/ee/libds34usb.a modules/ds34bt/ee/libds34bt.a
 
-APP_CORE = src/main.o src/system.o src/pad.o src/graphics.o src/render.o \
+APP_CORE = src/calc_3d.o src/pad.o
+#src/main.o src/system.o src/pad.o src/graphics.o src/render.o \
 		   src/calc_3d.o src/gsKit3d_sup.o src/atlas.o src/fntsys.o src/md5.o \
 		   src/sound.o
 
-LUA_LIBS =	src/luaplayer.o src/luasound.o src/luacontrols.o \
+#LUA_LIBS =	src/luaplayer.o 
+#src/luasound.o src/luacontrols.o \
 src/luatimer.o src/luaScreen.o src/luagraphics.o \
 src/luasystem.o src/luaRender.o
 
@@ -62,7 +64,7 @@ IOP_MODULES = src/sio2man.o src/mcman.o src/mcserv.o src/padman.o src/libsd.o \
 			  src/usbd.o src/audsrv.o src/bdm.o src/bdmfs_vfat.o \
 			  src/usbmass_bd.o src/cdfs.o src/ds34bt.o src/ds34usb.o
 
-EMBEDDED_RSC = src/boot.o
+#EMBEDDED_RSC = src/boot.o
 
 EE_OBJS = $(IOP_MODULES) $(EMBEDDED_RSC) $(APP_CORE) $(LUA_LIBS)
 

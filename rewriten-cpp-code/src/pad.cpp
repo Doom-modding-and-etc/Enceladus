@@ -1,8 +1,9 @@
 #include <kernel.h>
 #include <stdio.h>
+#include <iostream>
 #include <unistd.h>
 #include <stdlib.h>
-#include "include/pad.h"
+#include "include/pad.hpp"
 
 static char padBuf[256] __attribute__((aligned(64)));
 
@@ -11,43 +12,67 @@ static int actuators;
 
 int port, slot;
 
-int waitPadReady(int port, int slot)
+void pad::pad_init()
+{
+    int ret;
+
+    padInit(0);
+
+    port = 0; // 0 -> Connector 1, 1 -> Connector 2
+    slot = 0; // Always zero if not using multitap
+
+    std::cout << "PortMax: " << padGetPortMax() << "\n" <<  std::endl;
+    std::cout << "SlotMax: " << padGetSlotMax(port) << "\n" << std::endl;
+    if((ret = padPortOpen(port, slot, padBuf)) == 0) 
+    {
+        std::cout << "padOpenPort failed: " << ret << "\n";
+        SleepThread();
+    }
+
+    if(!initializePad(port, slot)) 
+    {
+        std::cout << "pad initalization failed\n";
+        SleepThread();
+    }
+}
+
+
+int pad::waitPadReady(int port, int slot)
 {
     int state;
     int lastState;
     char stateString[16];
 
     state = padGetState(port, slot);
-    lastState = -1;
-    while((state != PAD_STATE_STABLE) && (state != PAD_STATE_FINDCTP1)) {
+    while((state != PAD_STATE_STABLE) && (state != PAD_STATE_FINDCTP1)) 
+    {
         if (state != lastState) 
         {
             padStateInt2String(state, stateString);
-            printf("Please wait, pad(%d,%d) is in state %s\n",
-                       port, slot, stateString);
+            printf("Please wait, pad(%d,%d) is in state %s\n", port, slot, stateString);
         }
         lastState = state;
         state=padGetState(port, slot);
     }
     // Were the pad ever 'out of sync'?
-    if (lastState != -1) {
-        printf("Pad OK!\n");
+    if (lastState != -1) 
+    {
+        std::cout << "Pad OK!\n";
     }
     return 0;
 }
 
-
 /*
- * initializePad()
+ * pad::initializePad()
  */
-int initializePad(int port, int slot)
+int pad::initializePad(int port, int slot)
 {
 
     int ret;
     int modes;
     int i;
 
-    waitPadReady(port, slot);
+    pad::waitPadReady(port, slot);
 
     // How many different modes can this device operate in?
     // i.e. get # entrys in the modetable
@@ -67,8 +92,9 @@ int initializePad(int port, int slot)
 
     // If modes == 0, this is not a Dual shock controller
     // (it has no actuator engines)
-    if (modes == 0) {
-        printf("This is a digital controller?\n");
+    if (modes == 0) 
+    {
+        std::cout << "This is a digital controller?\n";
         return 1;
     }
 
@@ -79,20 +105,22 @@ int initializePad(int port, int slot)
             break;
         i++;
     } while (i < modes);
-    if (i >= modes) {
-        printf("This is no Dual Shock controller\n");
+    if (i >= modes) 
+    {
+        std::cout << "This is no Dual Shock controller\n";
         return 1;
     }
 
     // If ExId != 0x0 => This controller has actuator engines
     // This check should always pass if the Dual Shock test above passed
     ret = padInfoMode(port, slot, PAD_MODECUREXID, 0);
-    if (ret == 0) {
-        printf("This is no Dual Shock controller??\n");
+    if (ret == 0) 
+    {
+        std::cout << "This is no Dual Shock controller??\n";
         return 1;
     }
 
-    printf("Enabling dual shock functions\n");
+    std::cout << "Enabling dual shock functions\n";
 
     // When using MMODE_LOCK, user cant change mode with Select button
     padSetMainMode(port, slot, PAD_MMODE_DUALSHOCK, PAD_MMODE_LOCK);
@@ -105,7 +133,7 @@ int initializePad(int port, int slot)
 
     waitPadReady(port, slot);
     actuators = padInfoAct(port, slot, -1, 0);
-    printf("# of actuators: %d\n",actuators);
+    std::cout << "# of actuators: " << actuators << "\n";
 
     if (actuators != 0) {
         actAlign[0] = 0;   // Enable small engine
@@ -119,16 +147,17 @@ int initializePad(int port, int slot)
         printf("padSetActAlign: %d\n",
                    padSetActAlign(port, slot, actAlign));
     }
-    else {
-        printf("Did not find any actuators.\n");
+    else
+    {
+        std::cout << "Did not find any actuators.\n";
     }
 
-    waitPadReady(port, slot);
+    pad::waitPadReady(port, slot);
 
     return 1;
 }
 
-struct padButtonStatus readPad(int port, int slot)
+struct padButtonStatus pad::readPad(int port, int slot)
 {
     struct padButtonStatus buttons;
     int ret;    
@@ -160,28 +189,3 @@ int isButtonPressed(u32 button)
    return 0;
 
 }
-
-void pad_init()
-{
-    int ret;
-
-    padInit(0);
-
-    port = 0; // 0 -> Connector 1, 1 -> Connector 2
-    slot = 0; // Always zero if not using multitap
-
-    printf("PortMax: %d\n", padGetPortMax());
-    printf("SlotMax: %d\n", padGetSlotMax(port));
-
-
-    if((ret = padPortOpen(port, slot, padBuf)) == 0) {
-        printf("padOpenPort failed: %d\n", ret);
-        SleepThread();
-    }
-
-    if(!initializePad(port, slot)) {
-        printf("pad initalization failed!\n");
-        SleepThread();
-    }
-}
-

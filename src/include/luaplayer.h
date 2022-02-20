@@ -4,9 +4,9 @@
 #include <debug.h>
 
 extern "C" {
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
+    #include "lua.h"
+    #include "lualib.h"
+    #include "lauxlib.h"
 }
 
 extern char boot_path[255];
