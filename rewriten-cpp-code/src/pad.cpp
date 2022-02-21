@@ -172,7 +172,7 @@ struct padButtonStatus pad::readPad(int port, int slot)
 
 }
 
-int isButtonPressed(u32 button)
+int pad::isButtonPressed(u32 button)
 {
    int ret;
    u32 paddata;
