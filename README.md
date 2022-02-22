@@ -26,6 +26,7 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#features">Features</a></li>
+        <li><a href="#refrence">Refrence</a></li>
       </ul>
     </li>
     <li><a href="#contributing">Contributing</a></li>
@@ -76,6 +77,7 @@ Oh, and I also have to mention that an essential prerequisite for using Doomelad
 
 Doomeladus uses the latest version of Lua language (currently 5.4.3), which means that it brings all language's available resources so far. Below is the list of usable functions of Enceladus project currently, this list is constantly being updated.
 
+## Refrence
 **Graphics functions:**
 
 Primitive shapes:
@@ -283,7 +285,11 @@ Distributed under GNU GPL-3.0 License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Daniel Santos - [@danadsees](https://twitter.com/your_username) - danielsantos346@gmail.com
+Daniel Santos - [@DanaDSeeS](https://twitter.com/DanaDSeeS) - danielsantos346@gmail.com
+
+André Guilherme - [Wolf3s](https://www.youtube.com/channel/UCzMnDI1qhD6egKLMTezysxg) - [Wolf3s#6897](https://discord.com/channels/@Wolf3s#6897)
+
+Discord Server - [DOOMED-LOADER SERVER](https://discord.gg/YNTdx5dXF6)
 
 Project Link [https://github.com/Doom-modding-and-etc/doomedalus](https://github.com/Doom-modding-and-etc/doomedalus)
 
