@@ -5,7 +5,7 @@
   </a>
 
   <p align="center">
-    Enhanced Lua environment for PlayStation 2™
+   A fork of enhanced Lua environment but with comtents of doom for PlayStation 2™
     <br />
   </p>
 </p>  
@@ -15,7 +15,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-enceladus">About Enceladus</a>
+      <a href="#about-doomeladus">About Doomeladus</a>
       <ul>
         <li><a href="#function-types">Function types</a></li>
         <li><a href="#built-with">Built With</a></li>
@@ -35,9 +35,9 @@
   </ol>
 </details>
 
-## About Enceladus
+## About Doomeladus
 
-Enceladus is a project that seeks to facilitate and at the same time brings a complete kit for users to create homebrew software for PlayStation 2 using the Lua language. It has dozens of built-in functions, both for creating games and apps. The main advantage over using Enceladus project instead of the pure PS2SDK is above all the practicality, you will use one of the simplest possible languages to create what you have in mind, besides not having to compile, just script and test, fast and simple.
+Doomeladus is fork of a project called encelauds that seeks to facilitate and at the same time brings a complete kit for users to create homebrew software and ports of doom for PlayStation 2 using the Lua language. It has dozens of built-in functions, both for creating games and apps. The main advantage over using Doomeladus project instead of the pure PS2SDK is above all the practicality, you will use one of the simplest possible languages to create what you have in mind, besides not having to compile, just script and test, fast and simple.
 
 ### Function types:
 * System: Everything that involves files, folders and system stuff.
@@ -62,7 +62,7 @@ In this section you will have some information about how to code using Enceladus
 
 ### Prerequisites
 
-Using Enceladus you only need one way to code and one way to test your code, that is, if you want, you can even create your code on PS2, but I'll leave some recommendations below.
+Using Doomeladus you only need one way to code and one way to test your code, that is, if you want, you can even create your code on PS2, but I'll leave some recommendations below.
 
 * PC: [Visual Studio Code](https://code.visualstudio.com)(with Lua extension) and [PCSX2](https://pcsx2.net/download/development/dev-windows.html)(1.7.0 or above, enabled HostFS is required) or PS2Client for test.
 * How to enable HostFS on PCSX2 1.7.0:  
@@ -70,11 +70,11 @@ Using Enceladus you only need one way to code and one way to test your code, tha
 
 * Android: [QuickEdit](https://play.google.com/store/apps/details?id=com.rhmsoft.edit&hl=pt_BR&gl=US) and a PS2 with uLE for test.
 
-Oh, and I also have to mention that an essential prerequisite for using Enceladus is knowing how to code in Lua.
+Oh, and I also have to mention that an essential prerequisite for using Doomeladus is knowing how to code in Lua.
 
 ### Features
 
-Enceladus uses the latest version of Lua language (currently 5.4.3), which means that it brings all language's available resources so far. Below is the list of usable functions of Enceladus project currently, this list is constantly being updated.
+Doomeladus uses the latest version of Lua language (currently 5.4.3), which means that it brings all language's available resources so far. Below is the list of usable functions of Enceladus project currently, this list is constantly being updated.
 
 **Graphics functions:**
 
@@ -285,7 +285,7 @@ Distributed under GNU GPL-3.0 License. See `LICENSE` for more information.
 
 Daniel Santos - [@danadsees](https://twitter.com/your_username) - danielsantos346@gmail.com
 
-Project Link: [https://github.com/DanielSant0s/Enceladus](https://github.com/DanielSant0s/Enceladus)
+Project Link [https://github.com/Doom-modding-and-etc/doomedalus](https://github.com/Doom-modding-and-etc/doomedalus)
 
 ## Thanks
 

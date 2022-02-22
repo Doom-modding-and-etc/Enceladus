@@ -1,3 +1,5 @@
+#include "structures/wad_structure.h"
+
 void    W_InitMultipleFiles (char** filenames);
 void    W_Reload (void);
 
