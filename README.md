@@ -26,7 +26,7 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#features">Features</a></li>
-        <li><a href="#refrence">Refrence</a></li>
+        <li><a href="#reference">Reference</a></li>
       </ul>
     </li>
     <li><a href="#contributing">Contributing</a></li>
@@ -77,7 +77,7 @@ Oh, and I also have to mention that an essential prerequisite for using Doomelad
 
 Doomeladus uses the latest version of Lua language (currently 5.4.3), which means that it brings all language's available resources so far. Below is the list of usable functions of Enceladus project currently, this list is constantly being updated.
 
-## Refrence
+## Reference
 **Graphics functions:**
 
 Primitive shapes:
