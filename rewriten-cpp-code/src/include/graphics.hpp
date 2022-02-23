@@ -91,7 +91,7 @@ class gs
 
 };
 
-class load
+class load : public gs
 {
     public:
         GSTEXTURE* loadpng(const char *Path, bool delayed);
