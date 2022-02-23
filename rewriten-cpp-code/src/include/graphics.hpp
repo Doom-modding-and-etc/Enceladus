@@ -46,7 +46,7 @@ typedef struct
     vertex_f_t* xyzw;
     VECTOR*     test;
 } vData;
-
+//todo rewrite this to class probably when i return home
 struct model
 {
 	uint32_t facesCount;
