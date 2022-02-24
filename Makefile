@@ -64,7 +64,9 @@ IOP_MODULES = src/sio2man.o src/mcman.o src/mcserv.o src/padman.o src/libsd.o \
 
 EMBEDDED_RSC = src/boot.o
 
-EE_OBJS = $(IOP_MODULES) $(EMBEDDED_RSC) $(APP_CORE) $(LUA_LIBS)
+LOADER_OBJS = src/wad_loader.o
+
+EE_OBJS = $(IOP_MODULES) $(EMBEDDED_RSC) $(APP_CORE) $(LUA_LIBS) $(LOADER_OBJS)
 
 #------------------------------------------------------------------#
 
