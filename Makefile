@@ -69,14 +69,27 @@ LOADER_OBJS = src/wad_loader.o
 EE_OBJS = $(IOP_MODULES) $(EMBEDDED_RSC) $(APP_CORE) $(LUA_LIBS) $(LOADER_OBJS)
 
 #------------------------------------------------------------------#
+all: $(EXT_LIBS) $(EE_BIN)
+	@echo "$$HEADER"
 
+	echo "Building $(EE_BIN)..."
+	$(EE_STRIP) $(EE_BIN)
 
+	echo "Compressing $(EE_BIN_PKD)...\n"
+	ps2-packer $(EE_BIN) $(EE_BIN_PKD) > /dev/null
+	
+	mv $(EE_BIN) bin/
+	mv $(EE_BIN_PKD) bin/
 #--------------------- Embedded ressources ------------------------#
 
 src/boot.s: etc/boot.lua
 	echo "Embedding boot script..."
 	$(BIN2S) $< $@ bootString
 
+# Images
+EMBED/%.s: EMBED/%.png
+	$(BIN2S) $< $@ $(shell basename $< .png)
+	echo "Embedding $< Image..."
 #------------------------------------------------------------------#
 
 
@@ -151,18 +164,6 @@ src/ds34usb.s: modules/ds34usb/iop/ds34usb.irx
 	
 #------------------------------------------------------------------#
 
-all: $(EXT_LIBS) $(EE_BIN)
-	@echo "$$HEADER"
-
-	echo "Building $(EE_BIN)..."
-	$(EE_STRIP) $(EE_BIN)
-
-	echo "Compressing $(EE_BIN_PKD)...\n"
-	ps2-packer $(EE_BIN) $(EE_BIN_PKD) > /dev/null
-	
-	mv $(EE_BIN) bin/
-	mv $(EE_BIN_PKD) bin/
-
 debug: $(EE_BIN)
 	echo "Building $(EE_BIN) with debug symbols..."
 
@@ -217,8 +218,9 @@ clean:
 	$(MAKE) -C modules/ds34usb clean
 	$(MAKE) -C modules/ds34bt clean
 	
-	echo "Cleaning embedded boot script..."
-	rm -f src/boot.s
+	
+	echo "Cleaning embedded Resources..."
+	rm -f $(EMBEDDED_RSC)
 
 rebuild: clean all
 
