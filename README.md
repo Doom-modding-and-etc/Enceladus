@@ -1,7 +1,8 @@
 <br />
 <p align="center">
-  <a href="https://github.com/DanielSant0s/Enceladus/">
-    <img src="https://user-images.githubusercontent.com/47725160/128257833-e5dba4f3-2c90-4b92-b512-6245e51580f2.png" alt="Logo" width="100%" height="auto">
+  <a href="https://github.com/Doom-modding-and-etc/doomedalus/">
+    
+  </a>![Polish_20220224_080639035](https://user-images.githubusercontent.com/75867486/155632928-1330ed9e-dbaa-4c77-9590-403a26d6608a.jpg)
   </a>
 
   <p align="center">
