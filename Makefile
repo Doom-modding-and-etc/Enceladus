@@ -220,6 +220,7 @@ clean:
 	
 	
 	echo "Cleaning embedded Resources..."
+	rm -f src/boot.s
 	rm -f $(EMBEDDED_RSC)
 
 rebuild: clean all
