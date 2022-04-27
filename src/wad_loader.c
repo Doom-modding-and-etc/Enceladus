@@ -2,13 +2,13 @@
 void W_ReadLump (int lump, void *dest)
 {
    lumpinfo_t info;
-
    info.name;
 }
 
 int W_LumpLength (int lump)
 {
  lumpinfo_t linfo;
- linfo.position;
+ 
+ linfo.position; 
  linfo.size;
 }

@@ -20,7 +20,8 @@
 #include "include/luaplayer.h"
 #include "include/pad.h"
 
-extern "C"{
+extern "C"
+{
 #include <libds34bt.h>
 #include <libds34usb.h>
 }

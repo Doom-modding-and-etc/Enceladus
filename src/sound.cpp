@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
-
+#include <stdbool.h>
 #include "include/sound.h"
 
 static bool adpcm_started = false;

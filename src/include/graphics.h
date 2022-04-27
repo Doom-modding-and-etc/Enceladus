@@ -127,10 +127,10 @@ extern void setLightQuantity(int quantity);
 
 extern void createLight(int lightid, float dir_x, float dir_y, float dir_z, int type, float r, float g, float b);
 
-extern model* loadOBJ(const char* path, GSTEXTURE* text);
+extern struct model* loadOBJ(const char* path, GSTEXTURE* text);
 
-extern void drawOBJ(model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z);
+extern void drawOBJ(struct model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z);
 
-extern void draw_bbox(model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z, Color color);
+extern void draw_bbox(struct model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z, Color color);
 
 #endif

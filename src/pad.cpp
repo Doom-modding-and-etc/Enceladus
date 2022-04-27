@@ -173,12 +173,14 @@ void pad_init()
     printf("SlotMax: %d\n", padGetSlotMax(port));
 
 
-    if((ret = padPortOpen(port, slot, padBuf)) == 0) {
+    if((ret = padPortOpen(port, slot, padBuf)) == 0) 
+    {
         printf("padOpenPort failed: %d\n", ret);
         SleepThread();
     }
 
-    if(!initializePad(port, slot)) {
+    if(!initializePad(port, slot)) 
+    {
         printf("pad initalization failed!\n");
         SleepThread();
     }

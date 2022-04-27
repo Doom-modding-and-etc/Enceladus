@@ -8,7 +8,7 @@
 #include <jpeglib.h>
 #include <time.h>
 #include <png.h>
-
+#include <stdbool.h>
 #include "include/graphics.h"
 
 #define DEG2RAD(x) ((x)*0.01745329251)
