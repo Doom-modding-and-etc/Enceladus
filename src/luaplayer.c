@@ -4,10 +4,9 @@
 #include <unistd.h>
 #include <string.h>
 #include <malloc.h>
-
 #include "include/luaplayer.h"
 
-static lua_State *L;
+static struct lua_State *L;
 
 const char * runScript(const char* script, bool isStringBuffer )
 {	

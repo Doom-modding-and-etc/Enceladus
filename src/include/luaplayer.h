@@ -2,13 +2,12 @@
 #define __LUAPLAYER_H
 
 #include <debug.h>
+#include <stdbool.h>
 
-extern "C" 
-{
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
-}
+
 
 extern char boot_path[255];
 
@@ -28,7 +27,7 @@ int getBootDevice(void);
 extern size_t GetFreeSize(void);
 
 extern const char * runScript(const char* script, bool isStringBuffer);
-extern void luaC_collectgarbage (lua_State *L);
+extern void luaC_collectgarbage(lua_State *L);
 
 //extern void luaSound_init(lua_State *L);
 extern void luaControls_init(lua_State *L);

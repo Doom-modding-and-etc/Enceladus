@@ -46,7 +46,7 @@ static inline void allocFree(struct atlas_allocation_t *alloc)
     ((!alloc->leaf1) && (!alloc->leaf2))
 
 
-static inline struct atlas_allocation_t *allocPlace(struct atlas_allocation_t *alloc, size_t width, size_t height)
+static struct atlas_allocation_t *allocPlace(struct atlas_allocation_t *alloc, size_t width, size_t height)
 {
     // do we fit?
     if (!ALLOC_FITS(alloc, width, height))

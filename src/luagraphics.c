@@ -11,7 +11,7 @@
 static bool asyncDelayed = true;
 
 volatile int imgThreadResult = 1;
-unsigned char* imgThreadData = NULL;
+u8* imgThreadData = NULL;
 uint32_t imgThreadSize = 0;
 
 static u8 imgThreadStack[4096] __attribute__((aligned(16)));

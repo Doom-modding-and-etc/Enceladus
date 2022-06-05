@@ -26,7 +26,7 @@ static int lua_loadobj(lua_State *L){
     GSTEXTURE* text = NULL;
 	if(argc == 2) text = (GSTEXTURE*)(luaL_checkinteger(L, 2));
 	
-	model* res_m = loadOBJ(file_tbo, text);
+	struct model* res_m = loadOBJ(file_tbo, text);
 
 
 	// Push model object into Lua stack
@@ -41,7 +41,7 @@ static int lua_freeobj(lua_State *L) {
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 #endif
 	
-	model* m = (model*)(luaL_checkinteger(L, 1));
+	struct model* m = (struct model*)(luaL_checkinteger(L, 1));
 
     free(m->idxList);
 	m->idxList = NULL;
@@ -70,7 +70,7 @@ static int lua_freeobj(lua_State *L) {
 static int lua_drawobj(lua_State *L){
 	int argc = lua_gettop(L);
 	if (argc != 7) return luaL_error(L, "wrong number of arguments");
-	model* m = (model*)luaL_checkinteger(L, 1);
+	struct model* m = (struct model*)luaL_checkinteger(L, 1);
 	float pos_x = luaL_checknumber(L, 2);
 	float pos_y = luaL_checknumber(L, 3);
 	float pos_z = luaL_checknumber(L, 4);
@@ -87,7 +87,7 @@ static int lua_drawobj(lua_State *L){
 static int lua_drawbbox(lua_State *L){
 	int argc = lua_gettop(L);
 	if (argc != 8) return luaL_error(L, "wrong number of arguments");
-	model* m = (model*)luaL_checkinteger(L, 1);
+	struct model* m = (struct model*)luaL_checkinteger(L, 1);
 	float pos_x = luaL_checknumber(L, 2);
 	float pos_y = luaL_checknumber(L, 3);
 	float pos_z = luaL_checknumber(L, 4);

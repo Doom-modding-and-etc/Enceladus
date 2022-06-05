@@ -175,7 +175,7 @@ GSTEXTURE* loadpng(FILE* File, bool delayed)
             tex->Clut = (u32*)memalign(128, gsKit_texture_size_ee(8, 2, GS_PSM_CT32));
             memset(tex->Clut, 0, gsKit_texture_size_ee(8, 2, GS_PSM_CT32));
 
-            unsigned char *pixel = (unsigned char *)tex->Mem;
+            u8 *pixel = (u8 *)tex->Mem;
     		struct png_clut *clut = (struct png_clut *)tex->Clut;
 
     		int i, j, k = 0;
@@ -200,8 +200,8 @@ GSTEXTURE* loadpng(FILE* File, bool delayed)
     		}
 
     		int byte;
-    		unsigned char *tmpdst = (unsigned char *)tex->Mem;
-    		unsigned char *tmpsrc = (unsigned char *)pixel;
+    		u8 *tmpdst = (u8 *)tex->Mem;
+    		u8 *tmpsrc = (u8 *)pixel;
 
     		for (byte = 0; byte < gsKit_texture_size_ee(tex->Width, tex->Height, tex->PSM); byte++) tmpdst[byte] = (tmpsrc[byte] << 4) | (tmpsrc[byte] >> 4);
 
@@ -223,7 +223,7 @@ GSTEXTURE* loadpng(FILE* File, bool delayed)
             tex->Clut = (u32*)memalign(128, gsKit_texture_size_ee(16, 16, GS_PSM_CT32));
             memset(tex->Clut, 0, gsKit_texture_size_ee(16, 16, GS_PSM_CT32));
 
-            unsigned char *pixel = (unsigned char *)tex->Mem;
+            u8 *pixel = (u8 *)tex->Mem;
     		struct png_clut *clut = (struct png_clut *)tex->Clut;
 
     		int i, j, k = 0;
@@ -651,7 +651,7 @@ static void  _ps2_load_JPEG_generic(GSTEXTURE *Texture, struct jpeg_decompress_s
 {
 	int textureSize = 0;
 	if (scale_down) {
-		unsigned int longer = cinfo->image_width > cinfo->image_height ? cinfo->image_width : cinfo->image_height;
+		u32 longer = cinfo->image_width > cinfo->image_height ? cinfo->image_width : cinfo->image_height;
 		float downScale = (float)longer / (float)MAX_TEXTURE;
 		cinfo->scale_denom = ceil(downScale);
 	}
@@ -673,8 +673,8 @@ static void  _ps2_load_JPEG_generic(GSTEXTURE *Texture, struct jpeg_decompress_s
 	#endif
 	Texture->Mem = (u32*)memalign(128, textureSize);
 
-	unsigned int row_stride = textureSize/Texture->Height;
-	unsigned char *row_pointer = (unsigned char *)Texture->Mem;
+	u32 row_stride = textureSize/Texture->Height;
+	u8 *row_pointer = (u8 *)Texture->Mem;
 	while (cinfo->output_scanline < cinfo->output_height) {
 		jpeg_read_scanlines(cinfo, (JSAMPARRAY)&row_pointer, 1);
 		row_pointer += row_stride;

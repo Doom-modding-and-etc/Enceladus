@@ -7,7 +7,6 @@
 #include "include/luaplayer.h"
 #include "include/md5.h"
 #include "include/graphics.h"
-
 #include "include/system.h"
 
 #define MAX_DIR_FILES 512
@@ -321,10 +320,10 @@ static int lua_md5sum(lua_State *L)
 	char result[33];        
 	u8 digest[16];
 
-	MD5_CTX ctx;
-    MD5Init( &ctx );
-    MD5Update( &ctx, (u8 *)string, size );
-    MD5Final( digest, &ctx );
+	//MD5_CTX ctx;
+    //MD5Init( &ctx );
+    //MD5Update( &ctx, (u8 *)string, size );
+    //MD5Final( digest, &ctx );
 
 	for (i = 0; i < 16; i++) sprintf(result + 2 * i, "%02x", digest[i]);
 	lua_pushstring(L, result);
@@ -587,7 +586,7 @@ struct pathMap {
 
 static int copyThread(void* data)
 {
-	pathMap* paths = (pathMap*)data;
+	struct pathMap* paths = (struct pathMap*)data;
 
     char buffer[BUFSIZE];
     int in = open(paths->in, O_RDONLY, 0);
@@ -620,7 +619,7 @@ static int lua_copyasync(lua_State *L){
 	int argc = lua_gettop(L);
 	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 
-	pathMap* copypaths = (pathMap*)malloc(sizeof(pathMap));
+	struct pathMap* copypaths = (struct pathMap*)malloc(sizeof(struct pathMap));
 
 	copypaths->in = luaL_checkstring(L, 1);
 	copypaths->out = luaL_checkstring(L, 2);

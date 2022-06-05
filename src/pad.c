@@ -157,7 +157,6 @@ int isButtonPressed(u32 button)
             return 1;
    }
    return 0;
-
 }
 
 void pad_init()
@@ -185,4 +184,3 @@ void pad_init()
         SleepThread();
     }
 }
-
