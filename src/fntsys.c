@@ -53,7 +53,7 @@ typedef struct
     atlas_t *atlas;
 
     // atlas allocation position
-    struct atlas_allocation_t *allocation;
+    atlas_allocation_t *allocation;
 
 } fnt_glyph_cache_entry_t;
 

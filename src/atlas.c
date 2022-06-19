@@ -24,7 +24,7 @@ static atlas_allocation_t *allocNew(int x, int y, size_t width, size_t height)
     return al;
 }
 
-static inline void allocFree(struct atlas_allocation_t *alloc)
+static inline void allocFree(atlas_allocation_t *alloc)
 {
     if (!alloc)
         return;
@@ -46,7 +46,7 @@ static inline void allocFree(struct atlas_allocation_t *alloc)
     ((!alloc->leaf1) && (!alloc->leaf2))
 
 
-static atlas_allocation_t *allocPlace(struct atlas_allocation_t *alloc, size_t width, size_t height)
+static atlas_allocation_t *allocPlace(atlas_allocation_t *alloc, size_t width, size_t height)
 {
     // do we fit?
     if (!ALLOC_FITS(alloc, width, height))
@@ -142,7 +142,7 @@ static size_t pixelSize(u8 psm)
 }
 
 // copies the data into atlas
-static void atlasCopyData(atlas_t *atlas, struct atlas_allocation_t *al, size_t width, size_t height, const void *surface)
+static void atlasCopyData(atlas_t *atlas, atlas_allocation_t *al, size_t width, size_t height, const void *surface)
 {
     int y;
     size_t ps = pixelSize(atlas->surface.PSM);
