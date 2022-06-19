@@ -3,17 +3,17 @@
 
 #include <gsToolkit.h>
 
-struct atlas_allocation_t
+typedef struct 
 {
     int x, y;
     int w, h;
 
     struct atlas_allocation_t *leaf1, *leaf2;
-};
+} atlas_allocation_t;
 
 typedef struct
 {
-    struct atlas_allocation_t *allocation;
+    atlas_allocation_t *allocation;
 
     GSTEXTURE surface;
 } atlas_t;
@@ -29,7 +29,7 @@ void atlasFree(atlas_t *atlas);
 /** Allocates a place in atlas for the given pixmap data.
  * Atlas expects 32bit pixels - all the time
  */
-extern struct atlas_allocation_t *atlasPlace(atlas_t *atlas, size_t width,
+extern atlas_allocation_t *atlasPlace(atlas_t *atlas, size_t width,
                                       size_t height, const void *surface);
 
 #endif

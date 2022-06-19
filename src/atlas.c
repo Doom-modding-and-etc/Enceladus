@@ -9,9 +9,9 @@
 #include "include/atlas.h"
 #include "include/graphics.h"
 
-static inline struct atlas_allocation_t *allocNew(int x, int y, size_t width, size_t height)
+static atlas_allocation_t *allocNew(int x, int y, size_t width, size_t height)
 {
-    struct atlas_allocation_t *al = (struct atlas_allocation_t *)malloc(sizeof(struct atlas_allocation_t));
+    atlas_allocation_t *al = (atlas_allocation_t *)malloc(sizeof(atlas_allocation_t));
 
     al->x = x;
     al->y = y;
@@ -46,7 +46,7 @@ static inline void allocFree(struct atlas_allocation_t *alloc)
     ((!alloc->leaf1) && (!alloc->leaf2))
 
 
-static struct atlas_allocation_t *allocPlace(struct atlas_allocation_t *alloc, size_t width, size_t height)
+static atlas_allocation_t *allocPlace(struct atlas_allocation_t *alloc, size_t width, size_t height)
 {
     // do we fit?
     if (!ALLOC_FITS(alloc, width, height))
@@ -69,7 +69,7 @@ static struct atlas_allocation_t *allocPlace(struct atlas_allocation_t *alloc, s
         return alloc;
     } else {
         // already occupied. Try children
-        struct atlas_allocation_t *p = allocPlace(alloc->leaf1, width, height);
+        atlas_allocation_t *p = allocPlace(alloc->leaf1, width, height);
         if (p)
             return p;
 
@@ -165,12 +165,12 @@ static void atlasCopyData(atlas_t *atlas, struct atlas_allocation_t *al, size_t 
     }
 }
 
-struct atlas_allocation_t *atlasPlace(atlas_t *atlas, size_t width, size_t height, const void *surface)
+atlas_allocation_t *atlasPlace(atlas_t *atlas, size_t width, size_t height, const void *surface)
 {
     if (!surface)
         return NULL;
 
-    struct atlas_allocation_t *al = allocPlace(atlas->allocation, width + 1, height + 1);
+    atlas_allocation_t *al = allocPlace(atlas->allocation, width + 1, height + 1);
 
     if (!al)
         return NULL;
