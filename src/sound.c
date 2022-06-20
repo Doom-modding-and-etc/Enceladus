@@ -85,7 +85,7 @@ void sound_setformat(int bits, int freq, int channels){
         audsrv_started = true;
     }
 
-	struct audsrv_fmt_t format;
+	audsrv_fmt_t format;
 
     format.bits = bits;
 	format.freq = freq;

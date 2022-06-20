@@ -108,8 +108,15 @@ GSTEXTURE* loadpng(FILE* File, bool delayed)
 
 		png_read_image(png_ptr, row_pointers);
 
-		struct pixel { u8 r,g,b,a; };
-		struct pixel *Pixels = (struct pixel *) tex->Mem;
+		typedef struct  
+		{ 
+			u8 r;
+			u8 g;
+			u8 b;
+			u8 a; 
+		}pixel;
+
+		pixel *Pixels = (pixel *) tex->Mem;
 
 		for (i = 0; i < tex->Height; i++) {
 			for (j = 0; j < tex->Width; j++) {
@@ -134,8 +141,14 @@ GSTEXTURE* loadpng(FILE* File, bool delayed)
 
 		png_read_image(png_ptr, row_pointers);
 
-		struct pixel3 { u8 r,g,b; };
-		struct pixel3 *Pixels = (struct pixel3 *) tex->Mem;
+		typedef struct 
+		{
+			u8 r;
+			u8 g;
+			u8 b; 
+		}pixel3;
+
+		pixel3 *Pixels = (pixel3 *) tex->Mem;
 
 		for (i = 0; i < tex->Height; i++) {
 			for (j = 0; j < tex->Width; j++) {
@@ -149,7 +162,13 @@ GSTEXTURE* loadpng(FILE* File, bool delayed)
 	}
 	else if(png_get_color_type(png_ptr, info_ptr) == PNG_COLOR_TYPE_PALETTE){
 
-		struct png_clut { u8 r, g, b, a; };
+		typedef struct 
+		{ 
+			u8 r;
+			u8 g;
+			u8 b; 
+			u8 a; 
+		}png_clut;
 
 		png_colorp palette = NULL;
 		int num_pallete = 0;
@@ -176,7 +195,7 @@ GSTEXTURE* loadpng(FILE* File, bool delayed)
             memset(tex->Clut, 0, gsKit_texture_size_ee(8, 2, GS_PSM_CT32));
 
             u8 *pixel = (u8 *)tex->Mem;
-    		struct png_clut *clut = (struct png_clut *)tex->Clut;
+    		png_clut *clut = (png_clut *)tex->Clut;
 
     		int i, j, k = 0;
 
@@ -224,7 +243,7 @@ GSTEXTURE* loadpng(FILE* File, bool delayed)
             memset(tex->Clut, 0, gsKit_texture_size_ee(16, 16, GS_PSM_CT32));
 
             u8 *pixel = (u8 *)tex->Mem;
-    		struct png_clut *clut = (struct png_clut *)tex->Clut;
+    		png_clut *clut = (png_clut *)tex->Clut;
 
     		int i, j, k = 0;
 
@@ -245,7 +264,7 @@ GSTEXTURE* loadpng(FILE* File, bool delayed)
     		// rotate clut
     		for (i = 0; i < num_pallete; i++) {
     		    if ((i & 0x18) == 8) {
-    		        struct png_clut tmp = clut[i];
+    		        png_clut tmp = clut[i];
     		        clut[i] = clut[i + 8];
     		        clut[i + 8] = tmp;
     		    }
@@ -623,13 +642,14 @@ GSTEXTURE* loadbmp(FILE* File, bool delayed)
 
 }
 
-struct my_error_mgr {
+typedef struct  
+{
   struct jpeg_error_mgr pub;    /* "public" fields */
 
   jmp_buf setjmp_buffer;        /* for return to caller */
-};
+} my_error_mgr;
 
-typedef struct my_error_mgr *my_error_ptr;
+typedef my_error_mgr *my_error_ptr;
 
 METHODDEF(void)
 my_error_exit(j_common_ptr cinfo)
@@ -647,7 +667,7 @@ my_error_exit(j_common_ptr cinfo)
 
 // Following official documentation max width or height of the texture is 1024
 #define MAX_TEXTURE 1024
-static void  _ps2_load_JPEG_generic(GSTEXTURE *Texture, struct jpeg_decompress_struct *cinfo, struct my_error_mgr *jerr, bool scale_down)
+static void  _ps2_load_JPEG_generic(GSTEXTURE *Texture, struct jpeg_decompress_struct *cinfo, my_error_mgr *jerr, bool scale_down)
 {
 	int textureSize = 0;
 	if (scale_down) {
@@ -691,7 +711,7 @@ GSTEXTURE* loadjpeg(FILE* fp, bool scale_down, bool delayed)
 	tex->Delayed = delayed;
 
 	struct jpeg_decompress_struct cinfo;
-	struct my_error_mgr jerr;
+	my_error_mgr jerr;
 
 	if (tex == NULL) {
 		printf("jpeg: error Texture is NULL\n");

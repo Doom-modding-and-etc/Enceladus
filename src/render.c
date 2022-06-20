@@ -18,7 +18,8 @@ VECTOR* light_colour;
 int* light_type;
 
 
-struct vertex{
+typedef struct 
+{
 	float x;
 	float y;
 	float z;
@@ -27,19 +28,20 @@ struct vertex{
 	float n1;
 	float n2;
 	float n3;
-};
+} vertex;
 
-struct vertexList{
-	struct vertex v1;
-	struct vertex v2;
-	struct vertex v3;
+typedef struct {
+	vertex v1;
+	vertex v2;
+	vertex v3;
 	struct vertexList* next;
-};
+}vertexList;
 
-struct rawVertexList{
-	struct vertex* vert;
+typedef struct 
+{
+	vertex* vert;
 	struct rawVertexList* next;
-};
+}rawVertexList;
 
 
 void init3D(float aspect)
@@ -83,7 +85,7 @@ void createLight(int lightid, float dir_x, float dir_y, float dir_z, int type, f
 	light_type[lightid-1] = type;
 }
 
-struct model* loadOBJ(const char* path, GSTEXTURE* text){
+model* loadOBJ(const char* path, GSTEXTURE* text){
     // Opening model file and loading it on RAM
 	int file = open(path, O_RDONLY, 0777);
 	uint32_t size = lseek(file, 0, SEEK_END);
@@ -96,8 +98,8 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 	close(file);
 	
 	// Creating temp vertexList
-	struct rawVertexList* vl = (struct rawVertexList*)malloc(sizeof(struct rawVertexList));
-	struct rawVertexList* init = vl;
+	rawVertexList* vl = (rawVertexList*)malloc(sizeof(rawVertexList));
+	rawVertexList* init = vl;
 	
 	// Init variables
 	char* str = content;
@@ -107,13 +109,13 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 	char* init_val;
 	char magics[3][3] = {"v ","vt","vn"};
 	int magics_idx = 0;
-	struct vertex* res;
+	vertex* res;
 	int v_idx = 0;
 	bool skip = false;
 	char* end_vert;
 	char* end_val;
 	float* vert_args;
-	struct rawVertexList* old_vl;
+	rawVertexList* old_vl;
 	
 	// Vertices extraction
 	for(;;){
@@ -140,7 +142,7 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 		else init_val = ptr + 3;
 		while (init_val[0] == ' ') init_val++;
 		end_vert = strstr(init_val,"\n");
-		if (magics_idx == 0) res = (struct vertex*)malloc(sizeof(struct vertex));
+		if (magics_idx == 0) res = (vertex*)malloc(sizeof(vertex));
 		end_val = strstr(init_val," ");
 		vert_args = (float*)res; // Hacky way to iterate in vertex struct		
 		while (init_val < end_vert){
@@ -157,7 +159,7 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 		// Update rawVertexList struct
 		if (magics_idx == 0){
 			vl->vert = res;
-			vl->next = (struct rawVertexList*)malloc(sizeof(struct rawVertexList));
+			vl->next = (rawVertexList*)malloc(sizeof(rawVertexList));
 		}
 		old_vl = vl;
 		vl = vl->next;
@@ -166,11 +168,11 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 			vl->next = NULL;
 		}else{
 			if (vl == NULL){
-				old_vl->next = (struct rawVertexList*)malloc(sizeof(struct rawVertexList));
+				old_vl->next = (rawVertexList*)malloc(sizeof(rawVertexList));
 				vl = old_vl->next;
-				vl->vert = (struct vertex*)malloc(sizeof(struct vertex));
+				vl->vert = (vertex*)malloc(sizeof(vertex));
 				vl->next = NULL;
-			}else if(vl->vert == NULL) vl->vert = (struct vertex*)malloc(sizeof(struct vertex));
+			}else if(vl->vert == NULL) vl->vert = (vertex*)malloc(sizeof(vertex));
 			res = vl->vert;
 		}
 		
@@ -182,8 +184,8 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 
 	// Creating real RAW vertexList
 	ptr = strstr(str, "f ");
-	struct rawVertexList* faces = (struct rawVertexList*)malloc(sizeof(struct rawVertexList));
-	struct rawVertexList* initFaces = faces;
+	rawVertexList* faces = (rawVertexList*)malloc(sizeof(rawVertexList));
+	rawVertexList* initFaces = faces;
 	faces->vert = NULL;
 	faces->next = NULL;
 	int len = 0;
@@ -191,7 +193,7 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 	int f_idx;
 	char* ptr2;
 	int t_idx;
-	struct rawVertexList* tmp;
+	rawVertexList* tmp;
 	
 	// Faces extraction
 	while (ptr != NULL){
@@ -204,7 +206,7 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 		while (f_idx < 3){
 		
 			// Allocating new vertex
-			faces->vert = (struct vertex*)malloc(sizeof(struct vertex));
+			faces->vert = (vertex*)malloc(sizeof(vertex));
 		
 			// Extracting x,y,z
 			ptr2 = strstr(ptr,"/");
@@ -263,7 +265,7 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 
 			// Setting values for next vertex
 			ptr = ptr2;
-			faces->next = (struct rawVertexList*)malloc(sizeof(struct rawVertexList));
+			faces->next = (rawVertexList*)malloc(sizeof(rawVertexList));
 			faces = faces->next;
 			faces->next = NULL;
 			faces->vert = NULL;
@@ -277,7 +279,7 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 	
 	// Freeing temp vertexList and allocated file
 	free(content);
-	struct rawVertexList* tmp_init;
+	rawVertexList* tmp_init;
 	while (init != NULL){
 		tmp_init = init;
 		free(init->vert);
@@ -286,30 +288,30 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 	}
 	
 	// Create the model struct and populating vertex list
-	struct model* res_m = (struct model*)malloc(sizeof(struct model));
-	struct vertexList* vlist = (struct vertexList*)malloc(sizeof(struct vertexList));
-	struct vertexList* vlist_start = vlist;
+	model* res_m = (model*)malloc(sizeof(model));
+	vertexList* vlist = (vertexList*)malloc(sizeof(vertexList));
+	vertexList* vlist_start = vlist;
 	vlist->next = NULL;
 	bool first = true;
 	for(int i = 0; i < len; i+=3) {
 		if (first) first = false;
 		else{
-			vlist->next = (struct vertexList*)malloc(sizeof(struct vertexList));
+			vlist->next = (vertexList*)malloc(sizeof(vertexList));
 			vlist = vlist->next;
 			vlist->next = NULL;
 		}
 		tmp_init = initFaces;
-		memcpy(&vlist->v1,initFaces->vert,sizeof(struct vertex));
+		memcpy(&vlist->v1,initFaces->vert,sizeof(vertex));
 		initFaces = initFaces->next;
 		free(tmp_init->vert);
 		free(tmp_init);
 		tmp_init = initFaces;
-		memcpy(&vlist->v2,initFaces->vert,sizeof(struct vertex));
+		memcpy(&vlist->v2,initFaces->vert,sizeof(vertex));
 		initFaces = initFaces->next;
 		free(tmp_init->vert);
 		free(tmp_init);
 		tmp_init = initFaces;
-		memcpy(&vlist->v3,initFaces->vert,sizeof(struct vertex));
+		memcpy(&vlist->v3,initFaces->vert,sizeof(vertex));
 		initFaces = initFaces->next;
 		free(tmp_init->vert);
 		free(tmp_init);
@@ -326,7 +328,7 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
     res_m->normals =  (VECTOR*)memalign(128, res_m->facesCount * 3 * sizeof(VECTOR));
 	res_m->colours =  (VECTOR*)memalign(128, res_m->facesCount * 3 * sizeof(VECTOR));
 	res_m->idxList = (uint16_t*)memalign(128, res_m->facesCount * 3 * sizeof(uint16_t));
-	struct vertexList* object = vlist;
+	vertexList* object = vlist;
 	int n = 0;
 	while (object != NULL){
 
@@ -401,7 +403,7 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 	}
 
 	while (vlist != NULL){
-		struct vertexList* old = vlist;
+		vertexList* old = vlist;
 		vlist = vlist->next;
 		free(old);
 	}
@@ -468,7 +470,7 @@ struct model* loadOBJ(const char* path, GSTEXTURE* text){
 }
 
 
-void draw_bbox(struct model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z, Color color)
+void draw_bbox(model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z, Color color)
 {
 	VECTOR object_position = { pos_x, pos_y, pos_z, 1.00f };
 	VECTOR object_rotation = { rot_x, rot_y, rot_z, 1.00f };
@@ -482,15 +484,14 @@ void draw_bbox(struct model* m, float pos_x, float pos_y, float pos_z, float rot
 
 	create_local_world(local_world, object_position, object_rotation);
 	create_world_view(world_view, camera_position, camera_rotation);
-	create_local_screen(local_screen, local_world, world_view, view_screen);
-#ifndef WIP	
-//	if(clip_bounding_box(local_screen, m->bounding_box)) 
-//	return;
-#endif
+	create_local_screen(local_screen, local_world, world_view, view_screen);	
+	if(clip_bounding_box(local_screen, m->bounding_box)) 
+	return;
+
 	vertex_f_t *t_xyz = (vertex_f_t *)memalign(128, sizeof(vertex_f_t)*8);
-#ifndef WIP	
-	//calculate_vertices_no_clip((VECTOR *)t_xyz,  8, m->bounding_box, local_screen);
-#endif
+
+	calculate_vertices_no_clip((VECTOR *)t_xyz,  8, m->bounding_box, local_screen);
+
 	xyz_t *xyz  = (xyz_t *)memalign(128, sizeof(xyz_t)*8);
 	draw_convert_xyz(xyz, 2048, 2048, 16,  8, t_xyz);
 
@@ -514,7 +515,7 @@ void draw_bbox(struct model* m, float pos_x, float pos_y, float pos_z, float rot
 	free(xyz);
 }
 
-void drawOBJ(struct model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z)
+void drawOBJ(model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z)
 {
 	VECTOR object_position = { pos_x, pos_y, pos_z, 1.00f };
 	VECTOR object_rotation = { rot_x, rot_y, rot_z, 1.00f };
@@ -537,10 +538,10 @@ void drawOBJ(struct model* m, float pos_x, float pos_y, float pos_z, float rot_x
 	create_local_light(local_light, object_rotation);
 	create_world_view(world_view, camera_position, camera_rotation);
 	create_local_screen(local_screen, local_world, world_view, view_screen);
-#ifndef WIP	
-//	if(clip_bounding_box(local_screen, m->bounding_box)) 
-//	return;
-#endif
+
+	if(clip_bounding_box(local_screen, m->bounding_box)) 
+	return;
+
 	// Allocate calculation space.
 	VECTOR *t_normals  = (VECTOR*)memalign(128, sizeof(VECTOR)*(m->facesCount*3));
 	VECTOR *t_lights   = (VECTOR*)memalign(128, sizeof(VECTOR)*(m->facesCount*3));
@@ -553,10 +554,9 @@ void drawOBJ(struct model* m, float pos_x, float pos_y, float pos_z, float rot_x
 	// Calculate the normal values.
 	calculate_normals(t_normals, m->facesCount*3, m->normals, local_light);
 	calculate_lights(t_lights, m->facesCount*3, t_normals, light_direction, light_colour, light_type, light_count);
-	calculate_colours((VECTOR *)t_colours, m->facesCount, m->colours, t_lights);
-#ifndef WIP	
-	//calculate_vertices_clipped((VECTOR *)t_xyz, m->facesCount*3, m->positions, local_screen);
-#endif
+	calculate_colours((VECTOR *)t_colours, m->facesCount, m->colours, t_lights);	
+	calculate_vertices_clipped((VECTOR *)t_xyz, m->facesCount*3, m->positions, local_screen);
+
 	// Convert floating point vertices to fixed point and translate to center of screen.
 	xyz_t   *xyz  = (xyz_t   *)memalign(128, sizeof(xyz_t)   *  (m->facesCount*3));
 	color_t *rgba = (color_t *)memalign(128, sizeof(color_t) *  (m->facesCount*3));

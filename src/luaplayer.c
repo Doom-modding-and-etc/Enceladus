@@ -6,7 +6,7 @@
 #include <malloc.h>
 #include "include/luaplayer.h"
 
-static struct lua_State *L;
+static lua_State *L;
 
 const char * runScript(const char* script, bool isStringBuffer )
 {	

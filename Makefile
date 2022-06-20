@@ -1,8 +1,6 @@
 .SILENT:                                                                              
 
 define HEADER
-  
-
    ______        _____   _____  ____      ____  ______  ______           ____      __         _    _   ___________
   |  ____ \     | ___ | | ___ ||  _ \    / _  ||  ____||  ___ \         / __ \    |  |       | |  | | |  _________|
   | |    | \    ||   || ||   ||| | \ \__/ / | || |____ | |   | \       / /  \ \   |  |       | |  | | | |_________
@@ -32,8 +30,7 @@ EE_LIBS = -L$(PS2SDK)/ports/lib -L$(PS2DEV)/gsKit/lib/ -Lmodules/ds34bt/ee/ -Lmo
 
 EE_INCS += -Imodules/ds34bt/ee -Imodules/ds34usb/ee -I$(PS2DEV)/gsKit/include -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/freetype2 -I$(PS2SDK)/ports/include/zlib
 
-EE_CFLAGS   += -Wno-sign-compare -fno-strict-aliasing -fno-exceptions -DLUA_USE_PS2
-#EE_CXXFLAGS += -Wno-sign-compare -fno-strict-aliasing -fno-exceptions -DLUA_USE_PS2
+EE_CFLAGS += -Wno-sign-compare -fno-strict-aliasing -fno-exceptions -DLUA_USE_PS2
 
 ifeq ($(RESET_IOP),1)
 EE_CFLAGS += -DRESET_IOP
@@ -176,7 +173,6 @@ clean:
 	echo "\nCleaning objects..."
 	rm -f $(EE_OBJS)
 	
-		
 	echo "Cleaning SIO2MAN Driver..."
 	rm -f src/sio2man.s
 
@@ -215,7 +211,6 @@ clean:
 	rm -f src/ds34usb.s
 	$(MAKE) -C modules/ds34usb clean
 	$(MAKE) -C modules/ds34bt clean
-	
 	
 	echo "Cleaning embedded Resources..."
 	rm -f src/boot.s

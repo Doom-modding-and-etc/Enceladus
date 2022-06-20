@@ -320,10 +320,10 @@ static int lua_md5sum(lua_State *L)
 	char result[33];        
 	u8 digest[16];
 
-	//MD5_CTX ctx;
+	MD5_CTX ctx;
     //MD5Init( &ctx );
     //MD5Update( &ctx, (u8 *)string, size );
-    //MD5Final( digest, &ctx );
+    MD5Final( digest, &ctx );
 
 	for (i = 0; i < 16; i++) sprintf(result + 2 * i, "%02x", digest[i]);
 	lua_pushstring(L, result);
@@ -579,14 +579,15 @@ extern void *_gp;
 
 static volatile off_t progress, max_progress;
 
-struct pathMap {
+typedef struct 
+{
 	const char* in;
 	const char* out;
-};
+}pathMap;
 
 static int copyThread(void* data)
 {
-	struct pathMap* paths = (struct pathMap*)data;
+	pathMap* paths = (pathMap*)data;
 
     char buffer[BUFSIZE];
     int in = open(paths->in, O_RDONLY, 0);
@@ -619,7 +620,7 @@ static int lua_copyasync(lua_State *L){
 	int argc = lua_gettop(L);
 	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 
-	struct pathMap* copypaths = (struct pathMap*)malloc(sizeof(struct pathMap));
+	pathMap* copypaths = (pathMap*)malloc(sizeof(pathMap));
 
 	copypaths->in = luaL_checkstring(L, 1);
 	copypaths->out = luaL_checkstring(L, 2);

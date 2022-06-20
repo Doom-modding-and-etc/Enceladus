@@ -46,7 +46,8 @@ typedef struct
     VECTOR*     test;
 } vData;
 
-struct model{
+typedef struct 
+{
 	uint32_t facesCount;
     uint16_t* idxList;
     VECTOR* positions;
@@ -55,7 +56,7 @@ struct model{
     VECTOR* colours;
     VECTOR* bounding_box;
     GSTEXTURE* texture;
-};
+} model;
 
 typedef u32 Color;
 #define A(color) ((u8)(color >> 24 & 0xFF))
@@ -127,10 +128,10 @@ extern void setLightQuantity(int quantity);
 
 extern void createLight(int lightid, float dir_x, float dir_y, float dir_z, int type, float r, float g, float b);
 
-extern struct model* loadOBJ(const char* path, GSTEXTURE* text);
+extern model* loadOBJ(const char* path, GSTEXTURE* text);
 
-extern void drawOBJ(struct model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z);
+extern void drawOBJ(model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z);
 
-extern void draw_bbox(struct model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z, Color color);
+extern void draw_bbox(model* m, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z, Color color);
 
 #endif

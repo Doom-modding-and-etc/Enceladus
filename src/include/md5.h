@@ -76,8 +76,8 @@ extern void md5_pad(md5_ctxt *);
 extern void md5_result(u_int8_t *, md5_ctxt *);
  
 /* compatibility */
-#define MD5_CTX		      md5_ctxt
-#define MD5Init(x)	       void md5_init((x))
+#define MD5_CTX		        md5_ctxt
+#define MD5Init(x)	        void md5_init((x))
 #define MD5Update(x, y, z)	void md5_loop((x), (y), (z))
 #define MD5Final(x, y) \
 do {				\
