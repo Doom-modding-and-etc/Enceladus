@@ -37,7 +37,7 @@ EE_LIBS = -L$(PS2SDK)/ports/lib -L$(PS2DEV)/gsKit/lib/ -Lmodules/ds34bt/ee/ -Lmo
 
 ifeq ($(VM), lua)
 EE_LIBS += -llua
-EE_CXXFLAGS += -DLUA
+EE_CFLAGS += -DLUA
 endif
 
 EE_INCS += -Imodules/ds34bt/ee -Imodules/ds34usb/ee -I$(PS2DEV)/gsKit/include -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/freetype2 -I$(PS2SDK)/ports/include/zlib
@@ -45,7 +45,6 @@ EE_INCS += -Imodules/ds34bt/ee -Imodules/ds34usb/ee -I$(PS2DEV)/gsKit/include -I
 EE_INCS += -Imodules/ds34bt/ee -Imodules/ds34usb/ee
 
 EE_CFLAGS   += -Wno-sign-compare -fno-strict-aliasing -fno-exceptions -DLUA_USE_PS2 -D_R5900
-EE_CXXFLAGS += -Wno-sign-compare -fno-strict-aliasing -fno-exceptions -DLUA_USE_PS2 -D_R5900
 
 ifeq ($(RESET_IOP),1)
 EE_CFLAGS += -DRESET_IOP
@@ -247,4 +246,4 @@ reset:
 	ps2client -h $(PS2LINK_IP) reset   
 
 include $(PS2SDK)/samples/Makefile.pref
-include $(PS2SDK)/samples/Makefile.eeglobal_cpp
+include $(PS2SDK)/samples/Makefile.eeglobal

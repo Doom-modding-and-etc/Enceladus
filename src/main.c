@@ -226,12 +226,15 @@ int main(int argc, char * argv[])
     {
         #ifdef LUA
         // if no parameters are specified, use the default boot
-        if (argc < 2) {
+        if (argc < 2) 
+        {
             errMsg = runScript(bootString, true); 
-        } else {
+        } 
+        else 
+        {
             errMsg = runScript(argv[1], false);
         }   
-        #else
+        #elif JS
         errMsg = runScript("main.js", false);
         #endif
 
