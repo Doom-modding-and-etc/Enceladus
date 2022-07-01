@@ -142,21 +142,24 @@ int main(int argc, char * argv[])
     sbv_patch_disable_prefix_check(); 
     sbv_patch_fileio(); 
 
+    printf("Loading mc drivers\n");
     SifExecModuleBuffer(&sio2man_irx, size_sio2man_irx, 0, NULL, NULL);
     SifExecModuleBuffer(&mcman_irx, size_mcman_irx, 0, NULL, NULL);
     SifExecModuleBuffer(&mcserv_irx, size_mcserv_irx, 0, NULL, NULL);
+    printf("Initialize mc\n");
     initMC();
 
+    printf("loading pad drivers\n");
     SifExecModuleBuffer(&padman_irx, size_padman_irx, 0, NULL, NULL);
     SifExecModuleBuffer(&libsd_irx, size_libsd_irx, 0, NULL, NULL);
 
     // load pad & mc modules 
     printf("Installing Pad & MC modules...\n");
-
+    
     // load USB modules    
     SifExecModuleBuffer(&usbd_irx, size_usbd_irx, 0, NULL, NULL);
 
-    
+    printf("loading ds34(USB/bt) drivers\n");
     int ds3pads = 1;
     SifExecModuleBuffer(&ds34usb_irx, size_ds34usb_irx, 4, (char *)&ds3pads, NULL);
     SifExecModuleBuffer(&ds34bt_irx, size_ds34bt_irx, 4, (char *)&ds3pads, NULL);
@@ -226,21 +229,31 @@ int main(int argc, char * argv[])
             errMsg = runScript(argv[1], false);
         }   
 
+/*
         gsKit_clear_screens();
 
 		loadFontM();
-
+*/
+//PSX Compat stuff by HWC
+       init_scr();
         if (errMsg != NULL)
         {
         	
             while (!isButtonPressed(PAD_START)) 
             {
-				clearScreen(GS_SETREG_RGBAQ(0x20,0x60,0xB0,0x80,0x00));
+/*				             
+                clearScreen(GS_SETREG_RGBAQ(0x20,0x60,0xB0,0x80,0x00));
 				printFontMText("Doomedalus ERROR!", 15.0f, 15.0f, 0.9f, 0x80808080);
 				printFontMText(errMsg, 15.0f, 80.0f, 0.6f, 0x80808080);
 		   		printFontMText("\nPress [start] to restart\n", 15.0f, 400.0f, 0.6f, 0x80808080);
 				flipScreen();
-			}
+*/				//PSX Compat stuff by HWC
+                scr_clear();
+				scr_setXY(5, 2);
+				scr_printf("Enceladus ERROR!\n");
+				scr_printf(errMsg);
+				scr_printf("\nPress [start] to restart\n");
+            }
             
         }
 
