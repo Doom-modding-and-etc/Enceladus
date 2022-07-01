@@ -46,8 +46,7 @@ typedef struct
     VECTOR*     test;
 } vData;
 
-typedef struct 
-{
+typedef struct{
 	uint32_t facesCount;
     uint16_t* idxList;
     VECTOR* positions;
