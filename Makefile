@@ -31,6 +31,7 @@ EE_BIN_PKD = enceladus_pkd.elf
 ifeq ($(VM), js)
 EE_BIN = enceladus_js.elf
 EE_BIN_PKD = enceladus_js_pkd.elf
+EE_CFLAGS = -DJS
 endif
 
 EE_LIBS = -L$(PS2SDK)/ports/lib -L$(PS2DEV)/gsKit/lib/ -Lmodules/ds34bt/ee/ -Lmodules/ds34usb/ee/ -lpatches -lfileXio -lpad -ldebug -lmath3d -ljpeg -lfreetype -lgskit_toolkit -lgskit -ldmakit -lpng -lz -lmc -laudsrv -lelf-loader -lds34bt -lds34usb
