@@ -40,12 +40,6 @@ ifeq ($(DEBUG),1)
 EE_CFLAGS += -DDEBUG
 endif
 
-ifeq ($(PSX), 1)
-EE_CFLAGS += -DPSX
-EE_BIN = doomedalus_psx.elf
-EE_BIN_PKD = doomedalus_psx_pkd.elf
-endif
-
 BIN2S = $(PS2SDK)/bin/bin2s
 
 #-------------------------- App Content ---------------------------#

@@ -228,41 +228,23 @@ int main(int argc, char * argv[])
         } else {
             errMsg = runScript(argv[1], false);
         }   
-
-//PSX Compat stuff by HWC
-#ifndef PSX       
+ 
     init_scr();
-#else
-     gsKit_clear_screens();
-     loadFontM();
-#endif
         if (errMsg != NULL)
         {
         	
             while (!isButtonPressed(PAD_START)) 
-            {
-#ifdef PSX                             
+            {                   
 		                scr_clear();
 				scr_setXY(5, 2);
 		                scr_printf("Doomedalus ERROR!\n");
 				scr_printf(errMsg);
-				scr_printf("\nPress [start] to restart\n");				                                  
-#else
-		                clearScreen(GS_SETREG_RGBAQ(0x20,0x60,0xB0,0x80,0x00));
-				printFontMText("Doomedalus ERROR!", 15.0f, 15.0f, 0.9f, 0x80808080);
-				printFontMText(errMsg, 15.0f, 80.0f, 0.6f, 0x80808080);
-		   		printFontMText("\nPress [start] to restart\n", 15.0f, 400.0f, 0.6f, 0x80808080);
-				flipScreen();
-#endif
+				scr_printf("\nPress [start] to restart\n");				                                 
 				
             }
             
         }
-#ifdef PSX
 
-#else
-       unloadFontM();
-#endif
     }
 
 	return 0;
