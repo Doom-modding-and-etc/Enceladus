@@ -229,36 +229,40 @@ int main(int argc, char * argv[])
             errMsg = runScript(argv[1], false);
         }   
 
-/*
-        gsKit_clear_screens();
-
-		loadFontM();
-*/
 //PSX Compat stuff by HWC
-       init_scr();
+#ifndef PSX       
+    init_scr();
+#else
+     gsKit_clear_screens();
+     loadFontM();
+#endif
         if (errMsg != NULL)
         {
         	
             while (!isButtonPressed(PAD_START)) 
             {
-/*				             
-                clearScreen(GS_SETREG_RGBAQ(0x20,0x60,0xB0,0x80,0x00));
+#ifdef PSX                             
+		                scr_clear();
+				scr_setXY(5, 2);
+		                scr_printf("Doomedalus ERROR!\n");
+				scr_printf(errMsg);
+				scr_printf("\nPress [start] to restart\n");				                                  
+#else
+		                clearScreen(GS_SETREG_RGBAQ(0x20,0x60,0xB0,0x80,0x00));
 				printFontMText("Doomedalus ERROR!", 15.0f, 15.0f, 0.9f, 0x80808080);
 				printFontMText(errMsg, 15.0f, 80.0f, 0.6f, 0x80808080);
 		   		printFontMText("\nPress [start] to restart\n", 15.0f, 400.0f, 0.6f, 0x80808080);
 				flipScreen();
-*/				//PSX Compat stuff by HWC
-                scr_clear();
-				scr_setXY(5, 2);
-				scr_printf("Enceladus ERROR!\n");
-				scr_printf(errMsg);
-				scr_printf("\nPress [start] to restart\n");
+#endif
+				
             }
             
         }
+#ifdef PSX
 
-        unloadFontM();
-
+#else
+       unloadFontM();
+#endif
     }
 
 	return 0;

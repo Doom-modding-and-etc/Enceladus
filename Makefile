@@ -23,8 +23,8 @@ DEBUG = 0
 PS2LINK_IP = 192.168.1.10
 #------------------------------------------------------------------#
 
-EE_BIN = enceladus.elf
-EE_BIN_PKD = enceladus_pkd.elf
+EE_BIN = doomeladus.elf
+EE_BIN_PKD = doomedalus_pkd.elf
 
 EE_LIBS = -L$(PS2SDK)/ports/lib -L$(PS2DEV)/gsKit/lib/ -Lmodules/ds34bt/ee/ -Lmodules/ds34usb/ee/ -lpatches -lfileXio -lpad -ldebug -llua -lmath3d -ljpeg -lfreetype -lgskit_toolkit -lgskit -ldmakit -lpng -lz -lmc -laudsrv -lelf-loader -lds34bt -lds34usb
 
@@ -38,6 +38,12 @@ endif
 
 ifeq ($(DEBUG),1)
 EE_CFLAGS += -DDEBUG
+endif
+
+ifeq ($(PSX), 1)
+EE_CFLAGS += -DPSX
+EE_BIN = doomedalus_psx.elf
+EE_BIN_PKD = doomedalus_psx_pkd.elf
 endif
 
 BIN2S = $(PS2SDK)/bin/bin2s

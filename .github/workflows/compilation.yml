@@ -31,6 +31,11 @@ jobs:
     - name: Compile project
       run: |
         make clean all
+    
+    - name: Compile with PSX Support
+      run: |
+        make PSX=1 clean all
+
 
     - name: Get short SHA
       id: slug
