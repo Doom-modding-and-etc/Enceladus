@@ -12,6 +12,8 @@
 #include <audsrv.h>
 #include <sys/stat.h>
 
+#include <dirent.h>
+
 #include <sbv_patches.h>
 #include <smem.h>
 
@@ -19,12 +21,23 @@
 #include "include/sound.h"
 #include "include/luaplayer.h"
 #include "include/pad.h"
+
+#define NEWLIB_PORT_AWARE
+#include <fileXio_rpc.h>
+#include <fileio.h>
+
 #include <libds34bt.h>
 #include <libds34usb.h>
 
 
 extern char bootString[];
 extern unsigned int size_bootString;
+
+extern unsigned char iomanX_irx[];
+extern unsigned int size_iomanX_irx;
+
+extern unsigned char fileXio_irx[];
+extern unsigned int size_fileXio_irx;
 
 extern unsigned char sio2man_irx;
 extern unsigned int size_sio2man_irx;
@@ -142,8 +155,21 @@ int main(int argc, char * argv[])
     sbv_patch_disable_prefix_check(); 
     sbv_patch_fileio(); 
 
-    printf("Loading mc drivers\n");
-    SifExecModuleBuffer(&sio2man_irx, size_sio2man_irx, 0, NULL, NULL);
+
+	DIR *directorytoverify;
+	directorytoverify = opendir("host:.");
+	if(directorytoverify==NULL){
+		SifExecModuleBuffer(&iomanX_irx, size_iomanX_irx, 0, NULL, NULL);
+		SifExecModuleBuffer(&fileXio_irx, size_fileXio_irx, 0, NULL, NULL);
+	}
+	SifExecModuleBuffer(&sio2man_irx, size_sio2man_irx, 0, NULL, NULL);
+	if(directorytoverify==NULL){
+		fileXioInit();
+	}
+	if(directorytoverify!=NULL){
+		closedir(directorytoverify);
+	}
+
     SifExecModuleBuffer(&mcman_irx, size_mcman_irx, 0, NULL, NULL);
     SifExecModuleBuffer(&mcserv_irx, size_mcserv_irx, 0, NULL, NULL);
     printf("Initialize mc\n");
@@ -228,25 +254,21 @@ int main(int argc, char * argv[])
         } else {
             errMsg = runScript(argv[1], false);
         }   
- 
-    init_scr();
+
+
+        init_scr();
+
         if (errMsg != NULL)
         {
-        	
-            while (!isButtonPressed(PAD_START)) 
-            {                   
-		                scr_clear();
+        	while (!isButtonPressed(PAD_START)) {
+				scr_clear();
 				scr_setXY(5, 2);
-		                scr_printf("Doomedalus ERROR!\n");
+				scr_printf("Enceladus ERROR!\n");
 				scr_printf(errMsg);
-				scr_printf("\nPress [start] to restart\n");				                                 
-				
-            }
-            
+				scr_printf("\nPress [start] to restart\n");
+			}
         }
-
     }
-
 	return 0;
 }
 
