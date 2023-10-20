@@ -47,7 +47,7 @@ EXT_LIBS = modules/ds34usb/ee/libds34usb.a modules/ds34bt/ee/libds34bt.a
 
 APP_CORE = main.o system.o pad.o graphics.o render.o \
 		   calc_3d.o gsKit3d_sup.o atlas.o fntsys.o md5.o \
-		   wad_loader.o sound.o
+		   sound.o
 
 LUA_LIBS =	luaplayer.o luasound.o luacontrols.o \
 			luatimer.o luaScreen.o luagraphics.o \
@@ -60,7 +60,7 @@ IOP_MODULES = iomanx.o filexio.o \
 
 EMBEDDED_RSC = boot.o
 
-LOADER_OBJS = src/wad_loader.o
+LOADER_OBJS = wad_loader.o
 
 EE_OBJS = $(IOP_MODULES) $(EMBEDDED_RSC) $(APP_CORE) $(LUA_LIBS) $(LOADER_OBJS)
 
