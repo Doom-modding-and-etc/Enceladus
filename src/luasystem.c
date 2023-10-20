@@ -482,13 +482,21 @@ static int lua_checkexist(lua_State *L){
 	return 1;
 }
 
-
 static int lua_loadELF(lua_State *L)
 {
+	int argc = lua_gettop(L);
+	if (argc < 2) return luaL_error(L, "%s(path, reboot_iop, args...): not enough args", __FUNCTION__);
 	size_t size;
 	const char *elftoload = luaL_checklstring(L, 1, &size);
-	if (!elftoload) return luaL_error(L, "Argument error: System.loadELF() takes a string as argument.");
-	load_elf_NoIOPReset(elftoload);
+	int rebootIOP = luaL_checkinteger(L, 2);
+	char** p = (char**)malloc((argc-1) * sizeof(const char*));
+	p[0] = (char*)elftoload;
+	printf("# Loading ELF '%s' iop_reboot=%d, extra_args=%d\n", elftoload, rebootIOP, argc-2);
+	for (int x = 3; x <= argc; x++) {
+		printf("#  argv[%d] = '%s'\n", (x-2), luaL_checkstring(L, x));
+		p[x-2] = (char*)luaL_checkstring(L, x);
+	}
+	load_elf(elftoload, rebootIOP, p, (argc-1));
 	return 1;
 }
 
@@ -665,7 +673,7 @@ static const luaL_Reg System_functions[] = {
 	{"closeFile",                 lua_closefile},  
 	{"seekFile",                   lua_seekfile},  
 	{"sizeFile",                   lua_sizefile},
-	{"doesFileExist",            lua_checkexist},
+	//{"doesFileExist",            lua_checkexist}, BREAKS ERROR HANDLING IF DECLARED INSIDE TABLE. DONT ASK ME WHY
 	{"currentDirectory",             lua_curdir},
 	{"listDirectory",           	    lua_dir},
 	{"createDirectory",           lua_createDir},
@@ -736,6 +744,9 @@ static const luaL_Reg Sif_functions[] = {
 };
 
 void luaSystem_init(lua_State *L) {
+
+	lua_register(L, "doesFileExist", lua_checkexist);
+
 	setModulePath();
 	lua_newtable(L);
 	luaL_setfuncs(L, System_functions, 0);

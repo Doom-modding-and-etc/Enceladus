@@ -1,6 +1,6 @@
 #include "include/luaplayer.h"
 #include "include/pad.h"
-
+#include <stdint.h>
 #include <libds34bt.h>
 #include <libds34usb.h>
 

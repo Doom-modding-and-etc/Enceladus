@@ -63,8 +63,8 @@ extern unsigned int size_usbd_irx;
 extern unsigned char bdm_irx;
 extern unsigned int size_bdm_irx;
 
-extern unsigned char bdmfs_vfat_irx;
-extern unsigned int size_bdmfs_vfat_irx;
+extern unsigned char bdmfs_fatfs_irx;
+extern unsigned int size_bdmfs_fatfs_irx;
 
 extern unsigned char usbmass_bd_irx;
 extern unsigned int size_usbmass_bd_irx;
@@ -155,7 +155,6 @@ int main(int argc, char * argv[])
     sbv_patch_disable_prefix_check(); 
     sbv_patch_fileio(); 
 
-
 	DIR *directorytoverify;
 	directorytoverify = opendir("host:.");
 	if(directorytoverify==NULL){
@@ -169,7 +168,6 @@ int main(int argc, char * argv[])
 	if(directorytoverify!=NULL){
 		closedir(directorytoverify);
 	}
-
     SifExecModuleBuffer(&mcman_irx, size_mcman_irx, 0, NULL, NULL);
     SifExecModuleBuffer(&mcserv_irx, size_mcserv_irx, 0, NULL, NULL);
     printf("Initialize mc\n");
@@ -193,7 +191,7 @@ int main(int argc, char * argv[])
     ds34bt_init();
 
     SifExecModuleBuffer(&bdm_irx, size_bdm_irx, 0, NULL, NULL);
-    SifExecModuleBuffer(&bdmfs_vfat_irx, size_bdmfs_vfat_irx, 0, NULL, NULL);
+    SifExecModuleBuffer(&bdmfs_fatfs_irx, size_bdmfs_fatfs_irx, 0, NULL, NULL);
     SifExecModuleBuffer(&usbmass_bd_irx, size_usbmass_bd_irx, 0, NULL, NULL);
 
     SifExecModuleBuffer(&cdfs_irx, size_cdfs_irx, 0, NULL, NULL);
@@ -255,11 +253,18 @@ int main(int argc, char * argv[])
             errMsg = runScript(argv[1], false);
         }   
 
-
         init_scr();
 
         if (errMsg != NULL)
         {
+            scr_setfontcolor(0x0000ff);
+            sleep(1); //ensures message is printed no matter what
+		    scr_clear();
+		    scr_setXY(5, 2);
+		    scr_printf("Enceladus ERROR!\n");
+		    scr_printf(errMsg);
+		    puts(errMsg);
+		    scr_printf("\nPress [start] to restart\n");
         	while (!isButtonPressed(PAD_START)) {
 				scr_clear();
 				scr_setXY(5, 2);
